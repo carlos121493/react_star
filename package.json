@@ -1,0 +1,43 @@
+{
+  "name": "react_star",
+  "version": "0.0.0",
+  "description": "star project with react",
+  "keywords": [],
+  "homepage": "",
+  "author": "死侍 <sishi.gw@alipay.com>",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "licenses": "MIT",
+  "spm": {
+    "main": "index.js",
+    "output": [
+      "index.js"
+    ],
+    "build": {
+      "extractCSS": true,
+      "babel": {}
+    },
+    "dependencies": {
+      "react": "~0.14.3",
+      "es5-shim": "~4.3.0",
+      "jquery": "~2.1.4",
+      "react-dom": "~0.14.3",
+      "lodash": "~3.10.1"
+    },
+    "devDependencies": {
+      "expect.js": "0.3.1"
+    }
+  },
+  "devDependencies": {
+    "spm": "3"
+  },
+  "scripts": {
+    "test": "spm test",
+    "build": "spm build"
+  }
+}
