@@ -16,7 +16,8 @@
   "spm": {
     "main": "index.js",
     "output": [
-      "index.js"
+      "index.js",
+      "index.html"
     ],
     "build": {
       "extractCSS": true,
@@ -34,10 +35,23 @@
     }
   },
   "devDependencies": {
+    "babel": "~6.3.13",
     "spm": "3"
   },
   "scripts": {
     "test": "spm test",
     "build": "spm build"
+  },
+  "dependencies": {
+    "babel-loader": "~6.2.0",
+    "css-loader": "~0.23.0",
+    "file-loader": "~0.8.5",
+    "jQuery": "~1.7.4",
+    "jsx-loader": "~0.13.2",
+    "lodash": "~3.10.1",
+    "react": "~0.14.3",
+    "react-hot-loader": "~1.3.0",
+    "style-loader": "~0.13.0",
+    "url-loader": "~0.5.7"
   }
 }

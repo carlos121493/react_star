@@ -58,6 +58,7 @@ var react_star = require('react_star');
 var $ = require('jQuery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var StarBar = require('StarBar');
 var options = {
 	"disableClick":true,
 	"disableHover":true
@@ -84,6 +85,7 @@ ReactDOM.render(
 var $ = require('jQuery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var StarBar = require('StarBar');
 var options = {
 	"initNum":3.5,
 	"starNum":20,
@@ -108,6 +110,7 @@ ReactDOM.render(
 var $ = require('jQuery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var StarBar = require('StarBar');
 var options = {
 	"color":"#0ae",
 	"size":20
@@ -130,6 +133,7 @@ ReactDOM.render(
 var $ = require('jQuery');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var StarBar = require('StarBar');
 var options = {
 	"hover":function(event,num){
 		if(event.type == "mouseout"){

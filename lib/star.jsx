@@ -1,8 +1,7 @@
-
+'use strict'
 var React = require('react');
-var $ = require('jquery');
 var _ = require('lodash');
-
+var noop = function(){};
 //star
 var Star = React.createClass({
 	getClassName:function(){
@@ -13,9 +12,15 @@ var Star = React.createClass({
 		}
 		return num<choosed?"all_star":"zero_star";
 	},
+	handleHover:function(e){
+		this.props.starHover({event:e,num:this.props.num});
+	},
+	handleClick:function(e){
+		this.props.starClick({event:e,num:this.props.num});
+	},
 	render:function(){
 		// body...
-		return (<li ref="star_item" className={this.getClassName()} data-num={this.props.num} onClick={this.props.starClick} onMouseOver={this.props.starHover} onMouseOut={this.props.starHover} onMouseMove={this.props.starHover}></li>);
+		return (<li ref="star_item" className={this.getClassName()} data-num={this.props.num} onClick={this.handleClick} onMouseOver={this.handleHover} onMouseOut={this.handleHover} onMouseMove={this.handleHover}></li>);
 	}
 })
 
@@ -46,8 +51,8 @@ var StarBar = React.createClass({
 			size:15,
 			style:{},
 			className:"",
-			hover:$.noop,
-			click:$.noop,
+			hover:noop,
+			click:noop,
 			useHover:false,
 			disableClick:false,
 			disableHover:false 
@@ -60,13 +65,19 @@ var StarBar = React.createClass({
 			num:this.props.initNum
 		}
 	},
+	getOffsetL:function(dom){
+		// if(dom.parentElement){
+		// 	return dom.offsetLeft + this.getOffsetL(dom.parentElement);
+		// }
+		return dom.offsetLeft;
+	},
 	componentDidMount:function(){
 		var self = this;
-		var container = $(self.refs.stars_container);
-		self.containerL = container.find('li:first').offset().left;
+		var container = self.refs.stars_container;
+		self.containerL = self.getOffsetL(container.children[0]);
 	},
 	getSingleW:function(){
-		return this.singleW || ($(this.refs.stars_container).find('li:eq(1)').offset().left-this.containerL)
+		return this.singleW || (this.getOffsetL(this.refs.stars_container.children[1])-this.containerL)
 	},
 	shouldComponentUpdate:function(){
 		return !(this.props.disableClick && this.props.disableHover);
@@ -80,30 +91,24 @@ var StarBar = React.createClass({
 		isRemember && (self.currentStar = choose_num);
 		return choose_num;
 	},
-	handleClick:function(num){
+	handleClick:function(props){
 		var self = this;
-		if(self.props.disableClick){
-			return $.noop;
-		}
-		self.click && self.click(event,num);
-		return (event) => {
-			self.setState({num:self.ifHalfNum.call(self,num,event.clientX,true)});
-		};
+		var event = props.event;
+		var num = props.num;
+		self.setState({num:self.ifHalfNum.call(self,num,event.clientX,true)});
+
 	},
-	handleHover:function(num){
+	handleHover:function(props){
 		var self = this;
-		if(self.props.disableHover){
-			return $.noop;
+		var event = props.event;
+		var num = props.num;
+		self.hover && self.hover(event,num);
+		//如果是移出事件
+		if(event.type=="mouseout"){
+			!self.props.useHover && self.setState({num:self.currentStar});
+		} else {
+			self.setState({num:self.ifHalfNum.call(self,num,event.clientX)});
 		}
-		return (event) => {
-			self.hover && self.hover(event,num);
-			//如果是移出事件
-			if(event.type=="mouseout"){
-				!self.props.useHover && self.setState({num:self.currentStar});
-			} else {
-				self.setState({num:self.ifHalfNum.call(self,num,event.clientX)});
-			}
-		};
 	},
 	getStyles:function(){
 		return _.extend({},this.props.style,{
@@ -119,7 +124,7 @@ var StarBar = React.createClass({
 		return (
 			<ul className={classNames} style={self.getStyles()} ref="stars_container">
 				{stars.map(function(index){
-					return <Star num={index} ifHalf={self.props.half} choosed={self.state.num} starClick={self.handleClick(index)} starHover={self.handleHover(index)} key={index} />;
+					return <Star num={index} ifHalf={self.props.half} choosed={self.state.num} starClick={self.handleClick} starHover={self.handleHover} key={index} />;
 				})}
 			</ul>
 		)
